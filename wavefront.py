@@ -20,10 +20,17 @@ class Table:
         self.neurons.append(neuron)
         self.entries.append((time, neuron))
 
+    def print(self):
+        for t, n in zip(self.times, self.neurons)
+            print(f"Time: {t}\t\tNeuron: {n.c}")
 
-def propagate(grid: Grid, start: coordinate, goal: coordinate) -> Table:
+
+def propagate(grid: Grid, start: coordinate | None, goal: coordinate | None) -> Table:
     ''' Given a grid loaded with delays, propagate a spiking '''
     ''' wave from start to goal and return a spike table     '''
+    if start is None: start = (0, 0)
+    if goal is None: goal = (grid.n, grid.m)
+
     grid.reset()
     time = 1
     table = Table()
