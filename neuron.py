@@ -13,8 +13,9 @@ class Neuron:
     edges_in: list[Edge]
     edges_out: list[Edge]
 
-    def __init__(self, c: coordinate) -> Neuron:
-        self.c = c
+    def __init__(self, i: int | coordinate, j: int | None=None) -> Neuron:
+        ''' Overloaded initializer, one tuple or two int arguments '''
+        self.c = i if j is None else (i, j)
         self.edges_in = []
         self.edges_out = []
         self.reset()
