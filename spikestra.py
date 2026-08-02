@@ -65,6 +65,7 @@ if __name__ == "__main__":
             print("\nFirst spike time heatmap:")
             from pprint import pprint
             pprint(table.first_spikes, width=50)
+
         case 'csv':
             try:
                 grid = csv_to_grid(sys.argv[2])
@@ -73,3 +74,6 @@ if __name__ == "__main__":
 
             table = propagate(grid)
             table.print()
+
+        case _:
+            panic(USAGE)
