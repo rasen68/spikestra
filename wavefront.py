@@ -25,17 +25,17 @@ class Table:
             print(f"Time: {t}\t\tNeuron: {n.c}")
 
 
-def propagate(grid: Grid, start: coordinate | None, goal: coordinate | None) -> Table:
+def propagate(grid: Grid, start: coordinate | None=None, goal: coordinate | None=None) -> Table:
     ''' Given a grid loaded with delays, propagate a spiking '''
     ''' wave from start to goal and return a spike table     '''
     if start is None: start = (0, 0)
-    if goal is None: goal = (grid.n, grid.m)
+    if goal is None: goal = (grid.n-1, grid.m-1)
 
     grid.reset()
     time = 1
     table = Table()
-    s = grid.get(start)
-    g = grid.get(goal)
+    s = grid.get_neuron(start)
+    g = grid.get_neuron(goal)
 
     # Start wavefront by spiking s
     s.force_spike()

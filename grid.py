@@ -27,7 +27,7 @@ class Grid:
             grid.append(row)
 
         # Initialize east-west edges
-        for j in m:
+        for j in range(m):
             for i in range(n-1):
                 edge = Edge(grid[i][j], grid[i+1][j], 1)
                 edges.append(edge)
@@ -35,7 +35,7 @@ class Grid:
                 edges.append(bedge)
 
         # Initialize north-south edges
-        for i in n:
+        for i in range(n):
             for j in range(m-1):
                 edge = Edge(grid[i][j], grid[i][j+1], 1)
                 edges.append(edge)
@@ -48,8 +48,8 @@ class Grid:
     def load_delays(self, delays_in: list[list[int]]):
         ''' Add delays to edges, assuming that the delay to each  '''
         ''' neuron is the same and given by n x m array delays_in '''
-        for i in self.n:
-            for j in self.m:
+        for i in range(self.n):
+            for j in range(self.m):
                 for e in self.get_neuron(i, j).edges_in:
                     e.D = delays_in[i][j]
 
@@ -62,12 +62,12 @@ class Grid:
 
     def reset(self):
         ''' Reset grid by resetting all neurons '''
-        [e.reset() for e in edges]
+        [e.reset() for e in self.edges]
         [n.reset() for row in self.grid for n in row]
 
     def update(self):
         ''' Update edges then neurons '''
-        [e.update() for e in edges]
+        [e.update() for e in self.edges]
         [n.update() for row in self.grid for n in row]
 
     def get_spiked(self) -> list[Neuron]:

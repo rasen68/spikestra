@@ -26,9 +26,9 @@ def csv_to_grid(path: str) -> Grid:
 def uniform_grid(n: int, m: int, delay: int) -> Grid:
     grid = Grid(n, m)
     delays = []
-    for i in n:
+    for i in range(n):
         row = []
-        for j in m:
+        for j in range(m):
             row.append(delay)
         delays.append(row)
 
@@ -54,13 +54,16 @@ if __name__ == "__main__":
                 n, m = int(sys.argv[2]), int(sys.argv[3])
                 d = int(sys.argv[4])
                 grid = uniform_grid(n, m, d)
-                propagate(grid)
             except (IndexError, ValueError):
                 panic("Usage: spikestra.py uniform rows cols delay")
+
+            table = propagate(grid)
+            table.print()
         case 'csv':
             try:
                 grid = csv_to_grid(sys.argv[2])
-                propagate(grid)
-
             except IndexError:
                 panic("Usage: spikestra.py csv path_to_csv")
+
+            table = propagate(grid)
+            table.print()

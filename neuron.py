@@ -24,7 +24,7 @@ class Neuron:
         ''' computes u(t+1), v(t+1) based on equations 2.1 and 2.2       '''
         ''' call after self.I is loaded with input from Edges this is in '''
         v, u = self._v, self._u # old values
-        self._v = u + self.I
+        self._v = u + self._I
         self._u = -5 if v == 1 else min(u + 1, 0)
         self._I = 0 # reset
 
@@ -33,6 +33,9 @@ class Neuron:
 
     def increment(self):
         self._I += 1
+
+    def force_spike(self):
+        self._v = 1
 
     def reset(self):
         self._I = 0
