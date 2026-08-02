@@ -4,6 +4,10 @@ from __future__ import annotations
 
 from neuron import Neuron, Edge, coordinate
 
+def prin(s, **kwargs):
+    ''' no-newline print function '''
+    print(s, end='', **kwargs)
+
 class Grid:
     ''' n rows by m columns grid of neurons and edges        '''
     ''' Does not keep track of time, that is algorithm's job '''
@@ -73,3 +77,11 @@ class Grid:
     def get_spiked(self) -> list[Neuron]:
         ''' Returns all neurons that have spiked this time step '''
         return [n for row in self.grid for n in row if n.spiked()]
+
+    def print(self):
+        for j in range(self.m):
+            for i in range(self.n):
+                n = self.get_neuron(i, j)
+                prin(f'| {n._v}\t')
+            print('|')
+        print()
