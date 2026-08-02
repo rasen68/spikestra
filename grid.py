@@ -13,11 +13,12 @@ class Grid:
     edges: list[Edge]
 
     def __init__(self, n: int, m: int) -> Grid:
+        ''' Initialize grid of neurons and edges without delays D_ij'''
         grid = []
         edges = []
         self.n = n
         self.m = m
- 
+
         # Create grid of neurons
         for i in range(n):
             row = []
@@ -28,21 +29,29 @@ class Grid:
         # Initialize east-west edges
         for j in m:
             for i in range(n-1):
-                edge = Edge(grid[i][j], grid[i+1][j])
+                edge = Edge(grid[i][j], grid[i+1][j], 1)
                 edges.append(edge)
-                bedge = Edge(grid[i+1][j], grid[i][j])
+                bedge = Edge(grid[i+1][j], grid[i][j], 1)
                 edges.append(bedge)
 
         # Initialize north-south edges
         for i in n:
             for j in range(m-1):
-                edge = Edge(grid[i][j], grid[i][j+1])
+                edge = Edge(grid[i][j], grid[i][j+1], 1)
                 edges.append(edge)
-                bedge = Edge(grid[i][j+1], grid[i][j])
+                bedge = Edge(grid[i][j+1], grid[i][j], 1)
                 edges.append(bedge)
 
         self.grid = grid
         self.edges = edges
+
+    def load_delays(self, delays_in: list[list[int]]):
+        ''' Add delays to edges, assuming that the delay to each  '''
+        ''' neuron is the same and given by n x m array delays_in '''
+        for i in self.n:
+            for j in self.m:
+                for e in self.get_neuron(i, j).edges_in:
+                    e.D = delays_in[i][j]
 
     def get_neuron(self, n: int | coordinate, m: int | None=None) -> Neuron:
         ''' Overloaded neuron getter, one tuple or two int arguments '''
@@ -55,7 +64,7 @@ class Grid:
         ''' Reset grid by resetting all neurons '''
         [e.reset() for e in edges]
         [n.reset() for row in self.grid for n in row]
-    
+
     def update(self):
         ''' Update edges then neurons '''
         [e.update() for e in edges]

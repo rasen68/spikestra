@@ -22,8 +22,8 @@ class Table:
 
 
 def propagate(grid: Grid, start: coordinate, goal: coordinate) -> Table:
-    ''' Given a list of Edges between Neurons (in a grid), propagate '''
-    ''' a spiking wave from start to goal and return a spike table   '''
+    ''' Given a grid loaded with delays, propagate a spiking '''
+    ''' wave from start to goal and return a spike table     '''
     grid.reset()
     time = 1
     table = Table()

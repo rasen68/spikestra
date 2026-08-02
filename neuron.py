@@ -10,9 +10,13 @@ class Neuron:
     _I: int # synaptic input
     _v: int # potential
     _u: int # recovery
+    edges_in: list[Edge]
+    edges_out: list[Edge]
 
     def __init__(self, c: coordinate) -> Neuron:
         self.c = c
+        self.edges_in = []
+        self.edges_out = []
         self.reset()
 
     def update(self):
@@ -47,6 +51,8 @@ class Edge:
         self.j = j
         self.D = D
         self.reset()
+        self.i.edges_in.append(self)
+        self.j.edges_out.append(self)
 
     def update(self):
         # Update i.I based on equation 2.3
