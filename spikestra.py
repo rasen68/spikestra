@@ -58,8 +58,13 @@ if __name__ == "__main__":
             except (IndexError, ValueError):
                 panic("Usage: spikestra.py uniform rows cols delay")
 
+            print("\nSpike table:")
             table = propagate(grid)
             table.print()
+
+            print("\nFirst spike time heatmap:")
+            from pprint import pprint
+            pprint(table.first_spikes, width=50)
         case 'csv':
             try:
                 grid = csv_to_grid(sys.argv[2])
