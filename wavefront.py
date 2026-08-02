@@ -32,7 +32,7 @@ def propagate(grid: Grid, start: coordinate | None=None, goal: coordinate | None
     if goal is None: goal = (grid.n-1, grid.m-1)
 
     grid.reset()
-    time = 1
+    time = 0
     table = Table()
     s = grid.get_neuron(start)
     g = grid.get_neuron(goal)
