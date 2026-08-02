@@ -2,15 +2,17 @@
 
 from __future__ import annotations
 
+type coordinate = tuple[int, int]
+
 class Neuron:
     ''' Stateful Neuron model with membrane and recovery '''
-    c: tuple[int, int] # coordinate position
+    c: coordinate
     _I: int # synaptic input
     _v: int # potential
     _u: int # recovery
 
-    def __init__(self, coordinate: tuple[int, int]) -> Neuron:
-        self.c = coordinate
+    def __init__(self, c: coordinate) -> Neuron:
+        self.c = c
         self.reset()
 
     def update(self):
@@ -19,14 +21,14 @@ class Neuron:
         v, u = self._v, self._u # old values
         self._v = u + self.I
         self._u = -5 if v == 1 else min(u + 1, 0)
-        self._I = 0 # reset 
+        self._I = 0 # reset
 
     def spiked(self) -> bool:
         return self._v >= 1
 
     def increment(self):
         self._I += 1
-    
+
     def reset(self):
         self._I = 0
         self._v = 0
