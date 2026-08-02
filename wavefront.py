@@ -40,17 +40,11 @@ def propagate(grid: Grid, start: coordinate | None=None, goal: coordinate | None
     # Start wavefront by spiking s
     s.force_spike()
     table.append(time, s)
-    print("t =", time)
-    grid.print()
-
     # Timestep until g spikes
     while not g.spiked():
         time += 1
         grid.update()
         for neuron in grid.get_spiked():
             table.append(time, neuron)
-
-        print("t =", time)
-        grid.print()
 
     return table

@@ -77,11 +77,3 @@ class Grid:
     def get_spiked(self) -> list[Neuron]:
         ''' Returns all neurons that have spiked this time step '''
         return [n for row in self.grid for n in row if n.spiked()]
-
-    def print(self):
-        for j in range(self.m):
-            for i in range(self.n):
-                n = self.get_neuron(i, j)
-                prin(f'| {n._v}\t')
-            print('|')
-        print()
