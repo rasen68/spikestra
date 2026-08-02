@@ -11,9 +11,7 @@ class Neuron:
 
     def __init__(self, coordinate: tuple[int, int]) -> Neuron:
         self.c = coordinate
-        self.I = 0
-        self.v = 0
-        self.u = 0
+        self.reset()
 
     def update(self):
         ''' computes u(t+1), v(t+1) based on equations 2.1 and 2.2       '''
@@ -28,6 +26,11 @@ class Neuron:
 
     def spiked(self) -> bool:
         return self.v >= 1
+    
+    def reset(self):
+        self.I = 0
+        self.v = 0
+        self.u = 0
 
 class Edge:
     ''' An Edge is a path between two neurons, from j to i '''
@@ -41,7 +44,7 @@ class Edge:
         self.i = i
         self.j = j
         self.D = D
-        self.d = 0
+        self.reset()
 
     def update(self):
         # Update i.I based on equation 2.3
@@ -55,3 +58,6 @@ class Edge:
             self.d = self.D
         else:
             self.d = max(self.d - 1, 0)
+
+    def reset(self):
+        self.d = 0
