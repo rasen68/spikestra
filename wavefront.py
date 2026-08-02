@@ -21,7 +21,7 @@ class Table:
         self.entries.append((time, neuron))
 
     def print(self):
-        for t, n in zip(self.times, self.neurons)
+        for t, n in zip(self.times, self.neurons):
             print(f"Time: {t}\t\tNeuron: {n.c}")
 
 

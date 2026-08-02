@@ -47,7 +47,7 @@ def panic(string: str):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(USAGE)
+        panic(USAGE)
     match sys.argv[1]:
         case 'uniform':
             try:
