@@ -11,15 +11,16 @@ def csv_to_grid(path: str) -> Grid:
 
     try:
         with open(path, 'r') as f:
-            reader = csv.reader(file)
+            reader = csv.reader(f)
             delays = list(reader)
     except FileNotFoundError:
         panic(f"csv_to_grid: file {path} not found")
 
-    if not l or not l[0]:
+    if not delays or not delays[0]:
         panic(f"csv_to_grid: {path} csv reader was empty")
 
-    grid = Grid(len(list), len(list[0]))
+    delays = [[int(x) for x in row] for row in delays]
+    grid = Grid(len(delays), len(delays[0]))
     grid.load_delays(delays)
     return grid
 
