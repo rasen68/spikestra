@@ -22,7 +22,7 @@ class Table:
 
     def print(self):
         for t, n in zip(self.times, self.neurons):
-            print(f"Time: {t}\t\tNeuron: {n.c}")
+            print(f"Time:  {t}\t\tNeuron: {n.c}")
 
 
 def propagate(grid: Grid, start: coordinate | None=None, goal: coordinate | None=None) -> Table:

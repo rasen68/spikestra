@@ -59,14 +59,14 @@ class Edge:
         self.j.edges_out.append(self)
 
     def update(self):
+        # Update d based on j.v and equation 2.4
+        self._d = self.D if self.j.spiked() else max(self._d - 1, 0)
+
         # Update i.I based on equation 2.3
         # Together, the Edges containing i will create the sum
         # and i's update() reset i.I after each time step
         if self._d == 1:
             self.i.increment()
-
-        # Update d based on j.v and equation 2.4
-        self._d = self.D if self.j.spiked() else max(self._d - 1, 0)
 
     def reset(self):
         self._d = 0
