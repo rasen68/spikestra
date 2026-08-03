@@ -4,10 +4,6 @@ from __future__ import annotations
 
 from neuron import Neuron, Edge, coordinate
 
-def prin(s, **kwargs):
-    ''' no-newline print function '''
-    print(s, end='', **kwargs)
-
 class Grid:
     ''' n rows by m columns grid of neurons and edges        '''
     ''' Does not keep track of time, that is algorithm's job '''

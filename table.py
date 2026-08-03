@@ -56,8 +56,5 @@ class Table:
                 t = self.spike_time(a)
                 if t is not None and t < self.spike_time(cur):
                     cur = a
-            if cur in ret:
-                print("DIE DIE DIE")
-                return
             ret.insert(0, cur)
         return ret
