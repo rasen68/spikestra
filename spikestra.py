@@ -4,6 +4,7 @@
 import sys
 
 from grid import Grid
+from neuron import coordinate
 from table import Table
 from wavefront import propagate
 
@@ -47,7 +48,15 @@ def panic(string: str):
     print(string, file=sys.stderr)
     exit(1)
 
-def heatmap(table: Table):
+def display(c: coordinate) -> coordinate:
+    ''' convert to 1-indexed coords for output '''
+    return (c[0] + 1, c[1] + 1)
+
+def print_table(table: Table):
+    for t, n in zip(table.times, table.neurons):
+        print(f"Time:  {t}\tNeuron: {display(n.c)}")
+
+def heatmap(table: Table, path: bool=False):
     ''' heatmap of first spike times with shortest path overlaid '''
     import matplotlib.pyplot as plt
     import numpy as np
@@ -61,11 +70,17 @@ def heatmap(table: Table):
     im = ax.imshow(data, cmap='viridis', origin='upper')
     fig.colorbar(im, ax=ax, label='first spike time')
 
-    path = table.path()
-    rows, cols = zip(*path)  # (i, j) -> y, x for imshow
-    ax.plot(cols, rows, color='red', linewidth=2, marker='o', markersize=4)
-    ax.plot(cols[0], rows[0], 'go', markersize=8)   # start
-    ax.plot(cols[-1], rows[-1], 'rs', markersize=8)  # goal
+    # 1-indexed tick labels; imshow positions stay 0-based
+    ax.set_xticks(range(table.m))
+    ax.set_yticks(range(table.n))
+    ax.set_xticklabels(range(1, table.m + 1))
+    ax.set_yticklabels(range(1, table.n + 1))
+
+    if path:
+        rows, cols = zip(*table.path())  # (i, j) -> y, x for imshow
+        ax.plot(cols, rows, color='red', linewidth=2, markersize=4)
+        ax.plot(cols[0], rows[0], 'go', markersize=8)   # start
+        ax.plot(cols[-1], rows[-1], 'rs', markersize=8)  # goal
 
     plt.show()
 
@@ -94,7 +109,11 @@ if __name__ == "__main__":
     table = propagate(grid)
 
     print("\nSpike table:")
-    table.print()
+    print_table(table)
+
+    print("\nShortest path:")
+    print([display(c) for c in table.path()])
 
     print("\nFirst spike time heatmap:")
     heatmap(table)
+    heatmap(table, True)
