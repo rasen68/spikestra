@@ -57,7 +57,8 @@ class Table:
 
             # Go to neighbor with lowest first spike time
             for a in adj:
-                if self.spike_time(a) < self.spike_time(cur):
+                t = self.spike_time(a)
+                if t is not None and t < self.spike_time(cur):
                     cur = a
             if cur in ret:
                 print("DIE DIE DIE")

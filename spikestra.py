@@ -72,6 +72,8 @@ def heatmap(table: Table):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         panic(USAGE)
+
+    # Get grid based on subcmd
     match sys.argv[1]:
         case 'uniform':
             try:
@@ -80,22 +82,19 @@ if __name__ == "__main__":
                 grid = uniform_grid(n, m, d)
             except (IndexError, ValueError):
                 panic("Usage: spikestra.py uniform rows cols delay")
-
-            print("\nSpike table:")
-            table = propagate(grid)
-            table.print()
-
-            print("\nFirst spike time heatmap:")
-            heatmap(table)
-
         case 'csv':
             try:
                 grid = csv_to_grid(sys.argv[2])
             except IndexError:
                 panic("Usage: spikestra.py csv path_to_csv")
-
-            table = propagate(grid)
-            table.print()
-
         case _:
             panic(USAGE)
+
+    # Propagate spiking wavefront and report output
+    table = propagate(grid)
+
+    print("\nSpike table:")
+    table.print()
+
+    print("\nFirst spike time heatmap:")
+    heatmap(table)
