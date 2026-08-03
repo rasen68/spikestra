@@ -4,7 +4,8 @@
 import sys
 
 from grid import Grid
-from wavefront import Table, propagate
+from table import Table
+from wavefront import propagate
 
 def csv_to_grid(path: str) -> Grid:
     import csv
@@ -46,6 +47,28 @@ def panic(string: str):
     print(string, file=sys.stderr)
     exit(1)
 
+def heatmap(table: Table):
+    ''' heatmap of first spike times with shortest path overlaid '''
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    data = np.array(
+        [[np.nan if t is None else t for t in row] for row in table.first_spikes],
+        dtype=float,
+    )
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(data, cmap='viridis', origin='upper')
+    fig.colorbar(im, ax=ax, label='first spike time')
+
+    path = table.path()
+    rows, cols = zip(*path)  # (i, j) -> y, x for imshow
+    ax.plot(cols, rows, color='red', linewidth=2, marker='o', markersize=4)
+    ax.plot(cols[0], rows[0], 'go', markersize=8)   # start
+    ax.plot(cols[-1], rows[-1], 'rs', markersize=8)  # goal
+
+    plt.show()
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         panic(USAGE)
@@ -63,8 +86,7 @@ if __name__ == "__main__":
             table.print()
 
             print("\nFirst spike time heatmap:")
-            from pprint import pprint
-            pprint(table.first_spikes, width=50)
+            heatmap(table)
 
         case 'csv':
             try:
